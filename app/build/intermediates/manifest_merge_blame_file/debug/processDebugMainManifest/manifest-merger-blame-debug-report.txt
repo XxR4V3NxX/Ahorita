@@ -1,0 +1,66 @@
+1<?xml version="1.0" encoding="utf-8"?>
+2<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+3    package="com.ahorita.app"
+4    android:versionCode="1"
+5    android:versionName="1.0" >
+6
+7    <uses-sdk
+8        android:minSdkVersion="26"
+9        android:targetSdkVersion="36" />
+10
+11    <application
+11-->C:\Users\xX_R4V3NXx\Desktop\Ahorita_Android_Studio_inicial\Ahorita\app\src\main\AndroidManifest.xml:2:5-27:19
+12        android:allowBackup="true"
+12-->C:\Users\xX_R4V3NXx\Desktop\Ahorita_Android_Studio_inicial\Ahorita\app\src\main\AndroidManifest.xml:3:9-35
+13        android:debuggable="true"
+14        android:extractNativeLibs="false"
+15        android:label="ahorita"
+15-->C:\Users\xX_R4V3NXx\Desktop\Ahorita_Android_Studio_inicial\Ahorita\app\src\main\AndroidManifest.xml:4:9-32
+16        android:supportsRtl="true"
+16-->C:\Users\xX_R4V3NXx\Desktop\Ahorita_Android_Studio_inicial\Ahorita\app\src\main\AndroidManifest.xml:5:9-35
+17        android:testOnly="true"
+18        android:theme="@style/Theme.Ahorita" >
+18-->C:\Users\xX_R4V3NXx\Desktop\Ahorita_Android_Studio_inicial\Ahorita\app\src\main\AndroidManifest.xml:6:9-45
+19        <activity
+19-->C:\Users\xX_R4V3NXx\Desktop\Ahorita_Android_Studio_inicial\Ahorita\app\src\main\AndroidManifest.xml:7:9-15:20
+20            android:name="com.ahorita.app.MainActivity"
+20-->C:\Users\xX_R4V3NXx\Desktop\Ahorita_Android_Studio_inicial\Ahorita\app\src\main\AndroidManifest.xml:8:13-41
+21            android:exported="true"
+21-->C:\Users\xX_R4V3NXx\Desktop\Ahorita_Android_Studio_inicial\Ahorita\app\src\main\AndroidManifest.xml:10:13-36
+22            android:screenOrientation="portrait" >
+22-->C:\Users\xX_R4V3NXx\Desktop\Ahorita_Android_Studio_inicial\Ahorita\app\src\main\AndroidManifest.xml:9:13-49
+23            <intent-filter>
+23-->C:\Users\xX_R4V3NXx\Desktop\Ahorita_Android_Studio_inicial\Ahorita\app\src\main\AndroidManifest.xml:11:13-14:29
+24                <action android:name="android.intent.action.MAIN" />
+24-->C:\Users\xX_R4V3NXx\Desktop\Ahorita_Android_Studio_inicial\Ahorita\app\src\main\AndroidManifest.xml:12:17-69
+24-->C:\Users\xX_R4V3NXx\Desktop\Ahorita_Android_Studio_inicial\Ahorita\app\src\main\AndroidManifest.xml:12:25-66
+25
+26                <category android:name="android.intent.category.LAUNCHER" />
+26-->C:\Users\xX_R4V3NXx\Desktop\Ahorita_Android_Studio_inicial\Ahorita\app\src\main\AndroidManifest.xml:13:17-77
+26-->C:\Users\xX_R4V3NXx\Desktop\Ahorita_Android_Studio_inicial\Ahorita\app\src\main\AndroidManifest.xml:13:27-74
+27            </intent-filter>
+28        </activity>
+29
+30        <receiver
+30-->C:\Users\xX_R4V3NXx\Desktop\Ahorita_Android_Studio_inicial\Ahorita\app\src\main\AndroidManifest.xml:17:9-26:20
+31            android:name="com.ahorita.app.widgets.AhoritaWidgetProvider"
+31-->C:\Users\xX_R4V3NXx\Desktop\Ahorita_Android_Studio_inicial\Ahorita\app\src\main\AndroidManifest.xml:18:13-58
+32            android:exported="false" >
+32-->C:\Users\xX_R4V3NXx\Desktop\Ahorita_Android_Studio_inicial\Ahorita\app\src\main\AndroidManifest.xml:19:13-37
+33            <intent-filter>
+33-->C:\Users\xX_R4V3NXx\Desktop\Ahorita_Android_Studio_inicial\Ahorita\app\src\main\AndroidManifest.xml:20:13-22:29
+34                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+34-->C:\Users\xX_R4V3NXx\Desktop\Ahorita_Android_Studio_inicial\Ahorita\app\src\main\AndroidManifest.xml:21:17-84
+34-->C:\Users\xX_R4V3NXx\Desktop\Ahorita_Android_Studio_inicial\Ahorita\app\src\main\AndroidManifest.xml:21:25-81
+35            </intent-filter>
+36
+37            <meta-data
+37-->C:\Users\xX_R4V3NXx\Desktop\Ahorita_Android_Studio_inicial\Ahorita\app\src\main\AndroidManifest.xml:23:13-25:63
+38                android:name="android.appwidget.provider"
+38-->C:\Users\xX_R4V3NXx\Desktop\Ahorita_Android_Studio_inicial\Ahorita\app\src\main\AndroidManifest.xml:24:17-58
+39                android:resource="@xml/ahorita_widget_info" />
+39-->C:\Users\xX_R4V3NXx\Desktop\Ahorita_Android_Studio_inicial\Ahorita\app\src\main\AndroidManifest.xml:25:17-60
+40        </receiver>
+41    </application>
+42
+43</manifest>

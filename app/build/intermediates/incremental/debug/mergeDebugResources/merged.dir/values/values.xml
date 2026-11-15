@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="ah_background">#F1F6FA</color>
+    <color name="ah_blue">#DCEEFF</color>
+    <color name="ah_border">#D8E4ED</color>
+    <color name="ah_green">#39866D</color>
+    <color name="ah_muted">#60788C</color>
+    <color name="ah_navy">#183B5B</color>
+    <color name="ah_orange">#E88B42</color>
+    <color name="ah_surface">#FFFFFF</color>
+    <string name="app_name">ahorita</string>
+    <style name="Theme.Ahorita" parent="@android:style/Theme.Material.Light.NoActionBar">
+        <item name="android:fontFamily">sans</item>
+        <item name="android:colorAccent">@color/ah_navy</item>
+        <item name="android:statusBarColor">@color/ah_background</item>
+        <item name="android:navigationBarColor">@color/ah_background</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowActionModeOverlay">true</item>
+    </style>
+</resources>

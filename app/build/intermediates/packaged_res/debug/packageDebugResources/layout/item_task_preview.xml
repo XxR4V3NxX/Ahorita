@@ -1,0 +1,10 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="wrap_content"
+    android:layout_marginTop="10dp" android:background="@drawable/bg_card"
+    android:orientation="vertical" android:padding="16dp">
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:text="Imprimir el reporte" android:textColor="@color/ah_navy"
+        android:textSize="17sp" android:textStyle="bold"/>
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:text="1 h 18 min  ·  vence 9:10 a. m." android:textColor="@color/ah_muted"/>
+</LinearLayout>

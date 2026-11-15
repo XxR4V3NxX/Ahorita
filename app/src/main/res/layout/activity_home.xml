@@ -1,0 +1,73 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="@color/ah_background" android:fillViewport="true">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:orientation="vertical" android:padding="22dp">
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="ahorita" android:textColor="@color/ah_navy" android:textSize="30sp" android:textStyle="bold"/>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:layout_marginTop="4dp" android:text="martes 20 de octubre · 7:52 a. m."
+            android:textColor="@color/ah_muted" android:textSize="13sp"/>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:layout_marginTop="28dp" android:text="Lo urgente, ahorita"
+            android:textColor="@color/ah_navy" android:textSize="22sp" android:textStyle="bold"/>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginTop="14dp" android:background="@drawable/bg_card_primary"
+            android:orientation="vertical" android:padding="20dp">
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="AHORA  ·  vence 8:34 a. m." android:textColor="@color/ah_navy"
+                android:textStyle="bold" android:textSize="13sp"/>
+            <TextView android:id="@+id/tvUrgentTask" android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:layout_marginTop="18dp"
+                android:text="Salir para la clase de Diseño" android:textColor="@color/ah_navy"
+                android:textSize="24sp" android:textStyle="bold"/>
+            <TextView android:id="@+id/tvUrgentTime" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:layout_marginTop="8dp"
+                android:text="42 min" android:textColor="@color/ah_navy" android:textSize="34sp"
+                android:textStyle="bold"/>
+            <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:text="Aviso fuerte a los 10 min" android:textColor="@color/ah_muted"/>
+            <Button android:id="@+id/btnStartTask" android:layout_width="match_parent"
+                android:layout_height="wrap_content" android:layout_marginTop="18dp"
+                android:text="Empezar ahora" android:textAllCaps="false"
+                android:textColor="@android:color/white" android:backgroundTint="@color/ah_navy"/>
+        </LinearLayout>
+
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginTop="26dp" android:gravity="center_vertical">
+            <TextView android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1" android:text="Siguientes" android:textColor="@color/ah_navy"
+                android:textSize="20sp" android:textStyle="bold"/>
+            <Button android:id="@+id/btnSeeAll" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:text="Ver todo" android:textAllCaps="false"/>
+        </LinearLayout>
+        <include layout="@layout/item_task_preview"/>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginTop="10dp" android:background="@drawable/bg_card"
+            android:orientation="vertical" android:padding="16dp">
+            <TextView android:text="Tomar medicamento" android:textColor="@color/ah_navy"
+                android:textSize="17sp" android:textStyle="bold" android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <TextView android:text="3 h 08 min  ·  vence 11:00 a. m." android:textColor="@color/ah_muted"
+                android:layout_width="match_parent" android:layout_height="wrap_content"/>
+        </LinearLayout>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginTop="10dp" android:background="@drawable/bg_card"
+            android:orientation="vertical" android:padding="16dp">
+            <TextView android:text="Responder correo del profe" android:textColor="@color/ah_navy"
+                android:textSize="17sp" android:textStyle="bold" android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <TextView android:text="6 h restantes  ·  vence 1:52 p. m." android:textColor="@color/ah_muted"
+                android:layout_width="match_parent" android:layout_height="wrap_content"/>
+        </LinearLayout>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginTop="20dp" android:gravity="center" android:orientation="horizontal">
+            <Button android:id="@+id/btnToday" android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1" android:text="Hoy" android:textAllCaps="false"/>
+            <Button android:id="@+id/btnNewTask" android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1" android:text="Nueva tarea +" android:textAllCaps="false"/>
+            <Button android:id="@+id/btnStreaks" android:layout_width="0dp" android:layout_height="wrap_content"
+                android:layout_weight="1" android:text="Rachas" android:textAllCaps="false"/>
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

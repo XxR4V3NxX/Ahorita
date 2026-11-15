@@ -1,0 +1,43 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="@color/ah_background" android:fillViewport="true">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+        android:gravity="center_horizontal" android:orientation="vertical" android:padding="22dp">
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="ÚLTIMOS MINUTOS" android:textColor="@color/ah_orange"
+            android:textSize="16sp" android:textStyle="bold"/>
+        <TextView android:id="@+id/tvCountdownTask" android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:layout_marginTop="28dp"
+            android:gravity="center" android:text="Salir para la clase de Diseño"
+            android:textColor="@color/ah_navy" android:textSize="23sp" android:textStyle="bold"/>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:layout_marginTop="36dp" android:text="faltan" android:textColor="@color/ah_muted"
+            android:textSize="16sp"/>
+        <TextView android:id="@+id/tvCountdown" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:layout_marginTop="8dp"
+            android:text="09:12" android:textColor="@color/ah_orange"
+            android:textSize="64sp" android:textStyle="bold"/>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:text="minutos : segundos" android:textColor="@color/ah_muted"/>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:layout_marginTop="26dp" android:text="Cada bloque son 5 min · quedan 2"
+            android:textColor="@color/ah_navy" android:textStyle="bold"/>
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:layout_marginTop="28dp" android:text="Pasos pequeños"
+            android:textColor="@color/ah_navy" android:textSize="20sp" android:textStyle="bold"/>
+        <CheckBox android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="Guardar la laptop en la mochila"/>
+        <CheckBox android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="Meter el cargador"/>
+        <CheckBox android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:text="Revisar llaves y cartera"/>
+        <Button android:id="@+id/btnDone" android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:layout_marginTop="22dp"
+            android:text="Ya lo hice" android:textAllCaps="false"
+            android:backgroundTint="@color/ah_green" android:textColor="@android:color/white"/>
+        <Button android:id="@+id/btnAddFive" android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:text="+5 min" android:textAllCaps="false"/>
+        <Button android:id="@+id/btnBackHome" android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:text="Volver al inicio" android:textAllCaps="false"/>
+    </LinearLayout>
+</ScrollView>

@@ -1,0 +1,36 @@
+R_DEF: Internal format may change without notice
+local
+color ah_background
+color ah_blue
+color ah_border
+color ah_green
+color ah_muted
+color ah_navy
+color ah_orange
+color ah_surface
+drawable bg_card
+drawable bg_card_primary
+id btnAddFive
+id btnBackHome
+id btnCancelTask
+id btnCreateTask
+id btnDone
+id btnNewTask
+id btnSeeAll
+id btnStartTask
+id btnStreaks
+id btnToday
+id etTaskTitle
+id rgDuration
+id tvCountdown
+id tvCountdownTask
+id tvUrgentTask
+id tvUrgentTime
+layout activity_countdown
+layout activity_home
+layout activity_new_task
+layout item_task_preview
+layout widget_ahorita
+string app_name
+style Theme.Ahorita
+xml ahorita_widget_info
