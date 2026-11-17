@@ -1,0 +1,46 @@
+# Gradle build outputs and cache
+.gradle/
+build/
+/*/build/
+app/build/
+
+# Local environment configuration (SDK path, keys, local settings)
+local.properties
+
+# Android Studio / IntelliJ IDEA temporary and user-specific files
+.idea/caches/
+.idea/libraries/
+.idea/modules.xml
+.idea/workspace.xml
+.idea/navCompiler.xml
+.idea/assetWizardSettings.xml
+.idea/deploymentTargetSelector.xml
+.idea/deviceStreaming.xml
+.idea/deviceManager.xml
+.idea/shelf/
+*.iml
+*.ipr
+*.iws
+
+# Built binaries & packages
+*.apk
+*.aar
+*.ap_
+*.aab
+*.dex
+*.class
+
+# Log files
+*.log
+
+# Key stores and certificates
+*.jks
+*.keystore
+
+# C/C++ build artifacts
+.cxx/
+.externalNativeBuild/
+
+# Operating System files
+.DS_Store
+Thumbs.db
