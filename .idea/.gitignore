@@ -1,3 +1,46 @@
-# Default ignored files
-/shelf/
-/workspace.xml
+# Gradle build outputs y caché
+.gradle/
+build/
+/*/build/
+app/build/
+
+# Configuración local de entorno (ruta de SDK, etc.)
+local.properties
+
+# Archivos temporales y de estado de usuario de Android Studio / IntelliJ IDEA
+.idea/caches/
+.idea/libraries/
+.idea/modules.xml
+.idea/workspace.xml
+.idea/navCompiler.xml
+.idea/assetWizardSettings.xml
+.idea/deploymentTargetSelector.xml
+.idea/deviceStreaming.xml
+.idea/deviceManager.xml
+.idea/shelf/
+*.iml
+*.ipr
+*.iws
+
+# Compilados y binarios
+*.apk
+*.aar
+*.ap_
+*.aab
+*.dex
+*.class
+
+# Logs
+*.log
+
+# Keystores y llaves
+*.jks
+*.keystore
+
+# Artefactos C/C++
+.cxx/
+.externalNativeBuild/
+
+# Archivos del sistema operativo
+.DS_Store
+Thumbs.db

@@ -3,22 +3,42 @@
     android:background="@color/ah_background" android:fillViewport="true">
     <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
         android:gravity="center_horizontal" android:orientation="vertical" android:padding="22dp">
+
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
             android:text="ÚLTIMOS MINUTOS" android:textColor="@color/ah_orange"
             android:textSize="16sp" android:textStyle="bold"/>
+
         <TextView android:id="@+id/tvCountdownTask" android:layout_width="match_parent"
             android:layout_height="wrap_content" android:layout_marginTop="28dp"
             android:gravity="center" android:text="Salir para la clase de Diseño"
             android:textColor="@color/ah_navy" android:textSize="23sp" android:textStyle="bold"/>
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:layout_marginTop="36dp" android:text="faltan" android:textColor="@color/ah_muted"
-            android:textSize="16sp"/>
-        <TextView android:id="@+id/tvCountdown" android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:layout_marginTop="8dp"
-            android:text="09:12" android:textColor="@color/ah_orange"
-            android:textSize="64sp" android:textStyle="bold"/>
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:text="minutos : segundos" android:textColor="@color/ah_muted"/>
+
+        <!-- NUEVO: contenedor del arco y del texto del contador -->
+        <FrameLayout android:layout_width="match_parent" android:layout_height="240dp"
+            android:layout_marginTop="16dp">
+
+            <!-- NUEVO: arco que se acorta con el tiempo -->
+            <com.ahorita.app.ArcProgressView
+                android:id="@+id/arcCountdown"
+                android:layout_width="match_parent" android:layout_height="match_parent"/>
+
+            <!-- MOVIDO: estos tres TextView ahora van centrados dentro del FrameLayout -->
+            <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content"
+                android:layout_gravity="center" android:gravity="center_horizontal"
+                android:orientation="vertical">
+
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="faltan" android:textColor="@color/ah_muted"
+                    android:textSize="16sp"/>
+                <TextView android:id="@+id/tvCountdown" android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" android:layout_marginTop="4dp"
+                    android:text="09:12" android:textColor="@color/ah_orange"
+                    android:textSize="64sp" android:textStyle="bold"/>
+                <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+                    android:text="minutos : segundos" android:textColor="@color/ah_muted"/>
+            </LinearLayout>
+        </FrameLayout>
+
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
             android:layout_marginTop="26dp" android:text="Cada bloque son 5 min · quedan 2"
             android:textColor="@color/ah_navy" android:textStyle="bold"/>

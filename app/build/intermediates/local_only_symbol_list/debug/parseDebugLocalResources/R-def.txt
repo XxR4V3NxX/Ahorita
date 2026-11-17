@@ -10,6 +10,7 @@ color ah_orange
 color ah_surface
 drawable bg_card
 drawable bg_card_primary
+id arcCountdown
 id btnAddFive
 id btnBackHome
 id btnCancelTask

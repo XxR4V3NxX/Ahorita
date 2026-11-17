@@ -1,6 +1,6 @@
 <resources>
     <style name="Theme.Ahorita" parent="@android:style/Theme.Material.Light.NoActionBar">
-        <item name="android:fontFamily">sans</item>
+        <item name="android:fontFamily">sans-serif</item>
         <item name="android:colorAccent">@color/ah_navy</item>
         <item name="android:statusBarColor">@color/ah_background</item>
         <item name="android:navigationBarColor">@color/ah_background</item>

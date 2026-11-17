@@ -15,6 +15,7 @@ public class MainActivity extends Activity {
     // DATOS TEMPORALES: sustituir por repositorio/base de datos cuando exista backend.
     private String taskTitle = "Salir para la clase de Diseño";
     private long taskDurationMillis = 42 * 60 * 1000L;
+    private long totalMillis = taskDurationMillis;
     private CountDownTimer countDownTimer;
     private long remainingMillis = taskDurationMillis;
 
@@ -56,6 +57,7 @@ public class MainActivity extends Activity {
             taskTitle = value;
             // TODO: guardar la tarea y sus avisos en la base de datos.
             remainingMillis = taskDurationMillis;
+            totalMillis = taskDurationMillis; // NUEVO: al crear una tarea nueva, el total vuelve a la duración base
             showHome();
         });
         findViewById(R.id.btnCancelTask).setOnClickListener(v -> showHome());
@@ -65,8 +67,10 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_countdown);
         TextView task = findViewById(R.id.tvCountdownTask);
         TextView timer = findViewById(R.id.tvCountdown);
+        ArcProgressView arc = findViewById(R.id.arcCountdown); // NUEVO
         task.setText(taskTitle);
         updateTimerText(timer, remainingMillis);
+        updateArc(arc); // NUEVO: el arco arranca con el progreso correcto
 
         findViewById(R.id.btnDone).setOnClickListener(v -> {
             if (countDownTimer != null) countDownTimer.cancel();
@@ -77,30 +81,38 @@ public class MainActivity extends Activity {
         findViewById(R.id.btnAddFive).setOnClickListener(v -> {
             if (countDownTimer != null) countDownTimer.cancel();
             remainingMillis += 5 * 60 * 1000L;
-            startTimer(timer);
+            totalMillis += 5 * 60 * 1000L; // NUEVO: el total crece igual que el tiempo, para que el arco no pase de lleno
+            startTimer(timer, arc);        // CAMBIA: ahora recibe también el arco
         });
         findViewById(R.id.btnBackHome).setOnClickListener(v -> {
             if (countDownTimer != null) countDownTimer.cancel();
             showHome();
         });
-        startTimer(timer);
+        startTimer(timer, arc);            // CAMBIA: ahora recibe también el arco
     }
 
-    private void startTimer(TextView timerView) {
+    private void startTimer(TextView timerView, ArcProgressView arc) { // CAMBIA: nuevo parámetro
         if (countDownTimer != null) countDownTimer.cancel();
         countDownTimer = new CountDownTimer(remainingMillis, 1000) {
             @Override public void onTick(long millisUntilFinished) {
                 remainingMillis = millisUntilFinished;
                 updateTimerText(timerView, remainingMillis);
+                updateArc(arc); // NUEVO: actualiza el arco en cada segundo
             }
             @Override public void onFinish() {
                 remainingMillis = 0;
                 updateTimerText(timerView, 0);
+                updateArc(arc); // NUEVO: el arco queda vacío al terminar
                 Toast.makeText(MainActivity.this, "¡Se terminó el tiempo!", Toast.LENGTH_LONG).show();
             }
         }.start();
     }
 
+    // NUEVO: convierte el tiempo restante en proporción (0 a 1) y se lo pasa al arco
+    private void updateArc(ArcProgressView arc) {
+        if (totalMillis <= 0) return;
+        arc.setProgress((float) remainingMillis / totalMillis);
+    }
     private void updateTimerText(TextView view, long millis) {
         long totalSeconds = Math.max(0, millis / 1000);
         view.setText(String.format(Locale.getDefault(), "%02d:%02d",
