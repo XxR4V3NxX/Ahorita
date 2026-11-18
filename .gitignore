@@ -44,3 +44,5 @@ local.properties
 # Operating System files
 .DS_Store
 Thumbs.db
+build/reports/problems/problems-report.html
+.gradle/9.3.0/fileHashes/fileHashes.lock
