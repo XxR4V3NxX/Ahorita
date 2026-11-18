@@ -8,6 +8,9 @@
     <color name="ah_navy">#183B5B</color>
     <color name="ah_orange">#E88B42</color>
     <color name="ah_surface">#FFFFFF</color>
+    <color name="ah_urgent_green">#43A047</color>
+    <color name="ah_urgent_red">#E53935</color>
+    <color name="ah_urgent_yellow">#F9A825</color>
     <string name="app_name">ahorita</string>
     <style name="Theme.Ahorita" parent="@android:style/Theme.Material.Light.NoActionBar">
         <item name="android:fontFamily">sans-serif</item>

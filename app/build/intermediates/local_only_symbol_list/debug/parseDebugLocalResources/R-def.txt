@@ -8,8 +8,16 @@ color ah_muted
 color ah_navy
 color ah_orange
 color ah_surface
+color ah_urgent_green
+color ah_urgent_red
+color ah_urgent_yellow
+drawable bg_btn_pill_filled
+drawable bg_btn_pill_outline
 drawable bg_card
 drawable bg_card_primary
+drawable bg_urgency_green
+drawable bg_urgency_red
+drawable bg_urgency_yellow
 id arcCountdown
 id btnAddFive
 id btnBackHome
@@ -21,6 +29,9 @@ id btnSeeAll
 id btnStartTask
 id btnStreaks
 id btnToday
+id cardEmail
+id cardMedicine
+id cardTaskPreview
 id etTaskTitle
 id rgDuration
 id tvCountdown

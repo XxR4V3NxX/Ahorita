@@ -6,8 +6,16 @@ int color ah_muted 0x7f010004
 int color ah_navy 0x7f010005
 int color ah_orange 0x7f010006
 int color ah_surface 0x7f010007
+int color ah_urgent_green 0x7f010008
+int color ah_urgent_red 0x7f010009
+int color ah_urgent_yellow 0x7f01000a
+int drawable bg_btn_pill_filled 0x7f020002
+int drawable bg_btn_pill_outline 0x7f020003
 int drawable bg_card 0x7f020000
 int drawable bg_card_primary 0x7f020001
+int drawable bg_urgency_green 0x7f020004
+int drawable bg_urgency_red 0x7f020005
+int drawable bg_urgency_yellow 0x7f020006
 int id arcCountdown 0x7f030000
 int id btnAddFive 0x7f030001
 int id btnBackHome 0x7f030002
@@ -19,6 +27,9 @@ int id btnSeeAll 0x7f030007
 int id btnStartTask 0x7f030008
 int id btnStreaks 0x7f030009
 int id btnToday 0x7f03000a
+int id cardEmail 0x7f030011
+int id cardMedicine 0x7f030012
+int id cardTaskPreview 0x7f030013
 int id etTaskTitle 0x7f03000b
 int id rgDuration 0x7f03000c
 int id tvCountdown 0x7f03000d

@@ -7,4 +7,7 @@
     <color name="ah_border">#D8E4ED</color>
     <color name="ah_green">#39866D</color>
     <color name="ah_orange">#E88B42</color>
+    <color name="ah_urgent_red">#E53935</color>
+    <color name="ah_urgent_yellow">#F9A825</color>
+    <color name="ah_urgent_green">#43A047</color>
 </resources>

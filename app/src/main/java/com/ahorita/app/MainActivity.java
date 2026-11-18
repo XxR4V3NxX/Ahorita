@@ -31,6 +31,9 @@ public class MainActivity extends Activity {
         TextView title = findViewById(R.id.tvUrgentTask);
         TextView time = findViewById(R.id.tvUrgentTime);
         title.setText(taskTitle);
+        applyUrgency(findViewById(R.id.cardTaskPreview), 78);   // 1 h 18 min → rojo
+        applyUrgency(findViewById(R.id.cardMedicine), 188);     // 3 h 08 min → amarillo
+        applyUrgency(findViewById(R.id.cardEmail), 360);        // 6 h → verde
         time.setText(formatMinutes(remainingMillis));
 
         Button start = findViewById(R.id.btnStartTask);
@@ -97,18 +100,17 @@ public class MainActivity extends Activity {
             @Override public void onTick(long millisUntilFinished) {
                 remainingMillis = millisUntilFinished;
                 updateTimerText(timerView, remainingMillis);
-                updateArc(arc); // NUEVO: actualiza el arco en cada segundo
+                updateArc(arc);
             }
             @Override public void onFinish() {
                 remainingMillis = 0;
                 updateTimerText(timerView, 0);
-                updateArc(arc); // NUEVO: el arco queda vacío al terminar
+                updateArc(arc);
                 Toast.makeText(MainActivity.this, "¡Se terminó el tiempo!", Toast.LENGTH_LONG).show();
             }
         }.start();
     }
 
-    // NUEVO: convierte el tiempo restante en proporción (0 a 1) y se lo pasa al arco
     private void updateArc(ArcProgressView arc) {
         if (totalMillis <= 0) return;
         arc.setProgress((float) remainingMillis / totalMillis);
@@ -126,5 +128,17 @@ public class MainActivity extends Activity {
     @Override protected void onDestroy() {
         if (countDownTimer != null) countDownTimer.cancel();
         super.onDestroy();
+    }
+
+    private void applyUrgency(View card, long minutesLeft) {
+        int background;
+        if (minutesLeft < 120) {
+            background = R.drawable.bg_urgency_red;     // menos de 2 horas
+        } else if (minutesLeft <= 240) {
+            background = R.drawable.bg_urgency_yellow;  // de 2 a 4 horas
+        } else {
+            background = R.drawable.bg_urgency_green;   // más de 4 horas
+        }
+        card.setBackgroundResource(background);
     }
 }
