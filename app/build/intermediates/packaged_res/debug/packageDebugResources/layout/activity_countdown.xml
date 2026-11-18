@@ -42,15 +42,14 @@
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
             android:layout_marginTop="26dp" android:text="Cada bloque son 5 min · quedan 2"
             android:textColor="@color/ah_navy" android:textStyle="bold"/>
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:layout_marginTop="28dp" android:text="Pasos pequeños"
-            android:textColor="@color/ah_navy" android:textSize="20sp" android:textStyle="bold"/>
-        <CheckBox android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:text="Guardar la laptop en la mochila"/>
-        <CheckBox android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:text="Meter el cargador"/>
-        <CheckBox android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:text="Revisar llaves y cartera"/>
+        <TextView android:id="@+id/tvStepsTitle" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:layout_marginTop="28dp"
+            android:text="Pasos pequeños" android:textColor="@color/ah_navy"
+            android:textSize="20sp" android:textStyle="bold"/>
+
+        <!-- CAMBIO: los pasos se crean desde MainActivity según la tarea -->
+        <LinearLayout android:id="@+id/containerSteps" android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:orientation="vertical"/>
         <Button android:id="@+id/btnDone" android:layout_width="match_parent"
             android:layout_height="wrap_content" android:layout_marginTop="22dp"
             android:text="Ya lo hice" android:textAllCaps="false"

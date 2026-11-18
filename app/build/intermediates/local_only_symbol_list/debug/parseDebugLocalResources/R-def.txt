@@ -20,6 +20,7 @@ drawable bg_urgency_red
 drawable bg_urgency_yellow
 id arcCountdown
 id btnAddFive
+id btnAddStep
 id btnBackHome
 id btnCancelTask
 id btnCreateTask
@@ -29,7 +30,10 @@ id btnSeeAll
 id btnStartTask
 id btnStreaks
 id btnToday
+id containerNewSteps
 id containerSiguientes
+id containerSteps
+id etStep
 id etTaskTitle
 id rb120
 id rb15
@@ -40,8 +44,10 @@ id rgDuration
 id tvCountdown
 id tvCountdownTask
 id tvCustomTime
+id tvStepsTitle
 id tvTaskInfo
 id tvTaskTitle
+id tvUrgentLabel
 id tvUrgentTask
 id tvUrgentTime
 layout activity_countdown

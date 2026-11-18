@@ -17,6 +17,17 @@ public class TaskRepository {
     }
 
     public static void add(String title, long durationMillis, long deadlineMillis) {
-        tasks.add(new Task(nextId++, title, durationMillis, deadlineMillis));
+        add(title, durationMillis, deadlineMillis, Collections.emptyList());
+    }
+
+    public static void remove(long id) {
+        java.util.Iterator<Task> it = tasks.iterator();
+        while (it.hasNext()) {
+            if (it.next().id == id) it.remove();
+        }
+    }
+
+    public static void add(String title, long durationMillis, long deadlineMillis, List<String> steps) {
+        tasks.add(new Task(nextId++, title, durationMillis, deadlineMillis, steps));
     }
 }

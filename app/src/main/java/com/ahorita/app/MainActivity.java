@@ -1,35 +1,35 @@
 package com.ahorita.app;
 
 import android.app.Activity;
+import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import android.app.TimePickerDialog;
-import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
+import android.widget.CheckBox;
 
-import java.util.Locale;
 
 public class MainActivity extends Activity {
     // DATOS TEMPORALES: sustituir por repositorio/base de datos cuando exista backend.
-    private String taskTitle = "Salir para la clase de Diseño";
-    private long taskDurationMillis = 42 * 60 * 1000L;
-    private long totalMillis = taskDurationMillis;
     private CountDownTimer countDownTimer;
-    private long remainingMillis = taskDurationMillis;
+    private long remainingMillis;   // milisegundos que faltan en la pantalla de cuenta regresiva
+    private Task activeTask;        // tarea que se está cronometrando
     private long customDeadlineMillis = 0;
+    private boolean showAllTasks = false;
+    private static final int HOME_TASK_LIMIT = 4;
+    private final List<String> pendingSteps = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,33 +40,57 @@ public class MainActivity extends Activity {
     private void showHome() {
         setContentView(R.layout.activity_home);
 
-        // Tarea urgente: todavía fija. La conectaremos a TaskRepository en el siguiente paso.
+        TextView label = findViewById(R.id.tvUrgentLabel);
         TextView title = findViewById(R.id.tvUrgentTask);
         TextView time = findViewById(R.id.tvUrgentTime);
-        title.setText(taskTitle);
-        time.setText(formatMinutes(remainingMillis));
-
         Button start = findViewById(R.id.btnStartTask);
-        start.setOnClickListener(v -> showCountdown());
 
-        renderTasks();
+        Task urgent = getMostUrgent();
+        if (urgent == null) {
+            // Sin tareas: mensaje de estado vacío y sin botón de inicio
+            label.setText("AHORA");
+            title.setText("No tienes tareas pendientes");
+            time.setText("—");
+            start.setVisibility(View.GONE);
+        } else {
+            long now = System.currentTimeMillis();
+            String hour = new SimpleDateFormat("h:mm a", Locale.getDefault())
+                    .format(new Date(urgent.deadlineMillis));
+            label.setText("AHORA  ·  vence " + hour);
+            title.setText(urgent.title);
+            time.setText(formatMinutes(urgent.deadlineMillis - now));
+            start.setVisibility(View.VISIBLE);
+            start.setOnClickListener(v -> showCountdown(urgent));
+        }
 
         findViewById(R.id.btnNewTask).setOnClickListener(v -> showNewTask());
-        findViewById(R.id.btnSeeAll).setOnClickListener(v ->
-                Toast.makeText(this, "Aquí se mostrará la lista completa de tareas.", Toast.LENGTH_SHORT).show());
         findViewById(R.id.btnStreaks).setOnClickListener(v ->
                 Toast.makeText(this, "La sección de rachas se implementará después.", Toast.LENGTH_SHORT).show());
+        findViewById(R.id.btnSeeAll).setOnClickListener(v -> {
+            showAllTasks = !showAllTasks;
+            renderTasks();
+        });
+
+        renderTasks();
+    }
+
+    // La tarea que vence primero. TaskRepository.getAll() ya viene ordenada por vencimiento.
+    private Task getMostUrgent() {
+        List<Task> all = TaskRepository.getAll();
+        return all.isEmpty() ? null : all.get(0);
     }
 
     private void showNewTask() {
         setContentView(R.layout.activity_new_task);
-        customDeadlineMillis = 0; // cada vez que se abre la pantalla empieza sin hora elegida
+        customDeadlineMillis = 0;
+        pendingSteps.clear(); // cada vez empieza sin pasos
 
         EditText input = findViewById(R.id.etTaskTitle);
         RadioGroup durations = findViewById(R.id.rgDuration);
         TextView customTime = findViewById(R.id.tvCustomTime);
+        EditText stepInput = findViewById(R.id.etStep);
+        LinearLayout stepsContainer = findViewById(R.id.containerNewSteps);
 
-        // Si eligen "Elegir hora", abrimos el selector. Si eligen otra opción, ocultamos la hora
         durations.setOnCheckedChangeListener((group, checkedId) -> {
             if (checkedId == R.id.rbCustom) {
                 pickCustomTime(customTime, durations);
@@ -74,8 +98,19 @@ public class MainActivity extends Activity {
                 customTime.setVisibility(View.GONE);
             }
         });
-        // Tocar la hora mostrada permite cambiarla
         customTime.setOnClickListener(v -> pickCustomTime(customTime, durations));
+
+        // NUEVO: agrega un paso a la lista temporal
+        findViewById(R.id.btnAddStep).setOnClickListener(v -> {
+            String step = stepInput.getText().toString().trim();
+            if (step.isEmpty()) {
+                stepInput.setError("Escribe un paso");
+                return;
+            }
+            pendingSteps.add(step);
+            addStepRow(stepsContainer, step);
+            stepInput.setText("");
+        });
 
         findViewById(R.id.btnCreateTask).setOnClickListener(v -> {
             String value = input.getText().toString().trim();
@@ -101,10 +136,21 @@ public class MainActivity extends Activity {
                 deadline = now + duration;
             }
 
-            TaskRepository.add(value, duration, deadline);
+            // CAMBIO: ahora también se pasan los pasos
+            TaskRepository.add(value, duration, deadline, new ArrayList<>(pendingSteps));
             showHome();
         });
         findViewById(R.id.btnCancelTask).setOnClickListener(v -> showHome());
+    }
+
+    // Muestra un paso ya agregado como una línea de texto
+    private void addStepRow(LinearLayout container, String text) {
+        TextView row = new TextView(this);
+        row.setText("•  " + text);
+        row.setTextColor(getResources().getColor(R.color.ah_navy, getTheme()));
+        row.setTextSize(16);
+        row.setPadding(0, 6, 0, 6);
+        container.addView(row);
     }
 
     // Abre el selector de hora y guarda la hora elegida
@@ -145,35 +191,45 @@ public class MainActivity extends Activity {
         return 15 * 60000L; // rb15 es el valor por defecto
     }
 
-    private void showCountdown() {
+    private void showCountdown(Task task) {
+        activeTask = task;
         setContentView(R.layout.activity_countdown);
-        TextView task = findViewById(R.id.tvCountdownTask);
-        TextView timer = findViewById(R.id.tvCountdown);
-        ArcProgressView arc = findViewById(R.id.arcCountdown); // NUEVO
-        task.setText(taskTitle);
-        updateTimerText(timer, remainingMillis);
-        updateArc(arc); // NUEVO: el arco arranca con el progreso correcto
+
+        TextView taskView = findViewById(R.id.tvCountdownTask);
+        TextView timerView = findViewById(R.id.tvCountdown);
+        ArcProgressView arc = findViewById(R.id.arcCountdown);
+
+        taskView.setText(task.title);
+        renderSteps(findViewById(R.id.containerSteps), findViewById(R.id.tvStepsTitle), task.steps);
+
+        // El tiempo restante sale de la hora límite, no de un número guardado aparte
+        remainingMillis = Math.max(0, task.deadlineMillis - System.currentTimeMillis());
+        updateTimerText(timerView, remainingMillis);
+        updateArc(arc);
 
         findViewById(R.id.btnDone).setOnClickListener(v -> {
             if (countDownTimer != null) countDownTimer.cancel();
-            remainingMillis = 0;
+            TaskRepository.remove(activeTask.id); // la tarea terminada deja de aparecer
             Toast.makeText(this, "¡Actividad completada!", Toast.LENGTH_SHORT).show();
             showHome();
         });
         findViewById(R.id.btnAddFive).setOnClickListener(v -> {
             if (countDownTimer != null) countDownTimer.cancel();
-            remainingMillis += 5 * 60 * 1000L;
-            totalMillis += 5 * 60 * 1000L; // NUEVO: el total crece igual que el tiempo, para que el arco no pase de lleno
-            startTimer(timer, arc);        // CAMBIA: ahora recibe también el arco
+            long fiveMin = 5 * 60 * 1000L;
+            activeTask.deadlineMillis += fiveMin;  // la hora límite se corre 5 min
+            activeTask.durationMillis += fiveMin;  // el total crece igual, para que el arco no pase de lleno
+            remainingMillis = Math.max(0, activeTask.deadlineMillis - System.currentTimeMillis());
+            startTimer(timerView, arc);
         });
         findViewById(R.id.btnBackHome).setOnClickListener(v -> {
             if (countDownTimer != null) countDownTimer.cancel();
             showHome();
         });
-        startTimer(timer, arc);            // CAMBIA: ahora recibe también el arco
+
+        startTimer(timerView, arc);
     }
 
-    private void startTimer(TextView timerView, ArcProgressView arc) { // CAMBIA: nuevo parámetro
+    private void startTimer(TextView timerView, ArcProgressView arc) {
         if (countDownTimer != null) countDownTimer.cancel();
         countDownTimer = new CountDownTimer(remainingMillis, 1000) {
             @Override public void onTick(long millisUntilFinished) {
@@ -191,8 +247,8 @@ public class MainActivity extends Activity {
     }
 
     private void updateArc(ArcProgressView arc) {
-        if (totalMillis <= 0) return;
-        arc.setProgress((float) remainingMillis / totalMillis);
+        if (activeTask == null || activeTask.durationMillis <= 0) return;
+        arc.setProgress((float) remainingMillis / activeTask.durationMillis);
     }
     private void updateTimerText(TextView view, long millis) {
         long totalSeconds = Math.max(0, millis / 1000);
@@ -221,15 +277,19 @@ public class MainActivity extends Activity {
         card.setBackgroundResource(background);
     }
 
-    // Crea una tarjeta por cada tarea guardada y la agrega a la sección "Siguientes"
+
     private void renderTasks() {
         LinearLayout container = findViewById(R.id.containerSiguientes);
+        Button seeAll = findViewById(R.id.btnSeeAll);
         container.removeAllViews();
 
         LayoutInflater inflater = LayoutInflater.from(this);
         long now = System.currentTimeMillis();
+        List<Task> all = TaskRepository.getAll();
+        int limit = showAllTasks ? all.size() : Math.min(HOME_TASK_LIMIT, all.size());
 
-        for (Task task : TaskRepository.getAll()) {
+        for (int i = 0; i < limit; i++) {
+            Task task = all.get(i);
             View card = inflater.inflate(R.layout.item_task, container, false);
             long minutesLeft = task.minutesLeft(now);
 
@@ -239,9 +299,17 @@ public class MainActivity extends Activity {
 
             container.addView(card);
         }
+
+
+        if (all.size() > HOME_TASK_LIMIT) {
+            seeAll.setVisibility(View.VISIBLE);
+            seeAll.setText(showAllTasks ? "Ver menos" : "Ver todo");
+        } else {
+            seeAll.setVisibility(View.GONE);
+        }
     }
 
-    // Texto de la tarjeta, por ejemplo: "1 h 18 min  ·  vence 9:10 a. m."
+
     private String formatInfo(long minutesLeft, long deadlineMillis) {
         String left;
         if (minutesLeft < 0) {
@@ -255,5 +323,18 @@ public class MainActivity extends Activity {
         String hour = new SimpleDateFormat("h:mm a", Locale.getDefault())
                 .format(new Date(deadlineMillis));
         return left + "  ·  vence " + hour;
+    }
+    private void renderSteps(LinearLayout container, TextView title, List<String> steps) {
+        container.removeAllViews();
+        if (steps.isEmpty()) {
+            title.setVisibility(View.GONE);
+            return;
+        }
+        title.setVisibility(View.VISIBLE);
+        for (String step : steps) {
+            CheckBox box = new CheckBox(this);
+            box.setText(step);
+            container.addView(box);
+        }
     }
 }

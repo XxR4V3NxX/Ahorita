@@ -44,6 +44,23 @@
             android:text="Aviso fuerte cuando falten 10 min" android:checked="true"/>
         <Switch android:layout_width="match_parent" android:layout_height="wrap_content"
             android:text="Cuenta regresiva en pantalla de bloqueo"/>
+        <!--  pasos pequeños opcionales -->
+        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
+            android:layout_marginTop="24dp" android:text="Pasos pequeños (opcional)"
+            android:textColor="@color/ah_navy" android:textSize="19sp" android:textStyle="bold"/>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:layout_marginTop="12dp" android:gravity="center_vertical" android:orientation="horizontal">
+            <EditText android:id="@+id/etStep" android:layout_width="0dp"
+                android:layout_height="wrap_content" android:layout_weight="1"
+                android:hint="Ej. Guardar la laptop" android:padding="14dp"
+                android:background="@drawable/bg_card" android:inputType="textCapSentences"/>
+            <Button android:id="@+id/btnAddStep" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:layout_marginStart="8dp"
+                android:text="Agregar" android:textAllCaps="false"/>
+        </LinearLayout>
+        <!--  pasos ya agregados -->
+        <LinearLayout android:id="@+id/containerNewSteps" android:layout_width="match_parent"
+            android:layout_height="wrap_content" android:layout_marginTop="8dp" android:orientation="vertical"/>
         <Button android:id="@+id/btnCreateTask" android:layout_width="match_parent"
             android:layout_height="wrap_content" android:layout_marginTop="28dp"
             android:text="Crear y empezar la cuenta" android:textAllCaps="false"
