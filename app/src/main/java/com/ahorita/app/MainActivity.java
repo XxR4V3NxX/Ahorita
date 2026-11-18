@@ -8,6 +8,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.RadioGroup;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import android.app.TimePickerDialog;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 import java.util.Locale;
 
@@ -18,6 +29,7 @@ public class MainActivity extends Activity {
     private long totalMillis = taskDurationMillis;
     private CountDownTimer countDownTimer;
     private long remainingMillis = taskDurationMillis;
+    private long customDeadlineMillis = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,16 +40,16 @@ public class MainActivity extends Activity {
     private void showHome() {
         setContentView(R.layout.activity_home);
 
+        // Tarea urgente: todavía fija. La conectaremos a TaskRepository en el siguiente paso.
         TextView title = findViewById(R.id.tvUrgentTask);
         TextView time = findViewById(R.id.tvUrgentTime);
         title.setText(taskTitle);
-        applyUrgency(findViewById(R.id.cardTaskPreview), 78);   // 1 h 18 min → rojo
-        applyUrgency(findViewById(R.id.cardMedicine), 188);     // 3 h 08 min → amarillo
-        applyUrgency(findViewById(R.id.cardEmail), 360);        // 6 h → verde
         time.setText(formatMinutes(remainingMillis));
 
         Button start = findViewById(R.id.btnStartTask);
         start.setOnClickListener(v -> showCountdown());
+
+        renderTasks();
 
         findViewById(R.id.btnNewTask).setOnClickListener(v -> showNewTask());
         findViewById(R.id.btnSeeAll).setOnClickListener(v ->
@@ -48,22 +60,89 @@ public class MainActivity extends Activity {
 
     private void showNewTask() {
         setContentView(R.layout.activity_new_task);
+        customDeadlineMillis = 0; // cada vez que se abre la pantalla empieza sin hora elegida
 
         EditText input = findViewById(R.id.etTaskTitle);
-        Button create = findViewById(R.id.btnCreateTask);
-        create.setOnClickListener(v -> {
+        RadioGroup durations = findViewById(R.id.rgDuration);
+        TextView customTime = findViewById(R.id.tvCustomTime);
+
+        // Si eligen "Elegir hora", abrimos el selector. Si eligen otra opción, ocultamos la hora
+        durations.setOnCheckedChangeListener((group, checkedId) -> {
+            if (checkedId == R.id.rbCustom) {
+                pickCustomTime(customTime, durations);
+            } else {
+                customTime.setVisibility(View.GONE);
+            }
+        });
+        // Tocar la hora mostrada permite cambiarla
+        customTime.setOnClickListener(v -> pickCustomTime(customTime, durations));
+
+        findViewById(R.id.btnCreateTask).setOnClickListener(v -> {
             String value = input.getText().toString().trim();
             if (value.isEmpty()) {
                 input.setError("Escribe qué tienes que hacer");
                 return;
             }
-            taskTitle = value;
-            // TODO: guardar la tarea y sus avisos en la base de datos.
-            remainingMillis = taskDurationMillis;
-            totalMillis = taskDurationMillis; // NUEVO: al crear una tarea nueva, el total vuelve a la duración base
+
+            long now = System.currentTimeMillis();
+            int checkedId = durations.getCheckedRadioButtonId();
+            long duration;
+            long deadline;
+
+            if (checkedId == R.id.rbCustom) {
+                if (customDeadlineMillis == 0) {
+                    Toast.makeText(this, "Elige la hora de vencimiento", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                deadline = customDeadlineMillis;
+                duration = deadline - now;
+            } else {
+                duration = presetDurationMillis(checkedId);
+                deadline = now + duration;
+            }
+
+            TaskRepository.add(value, duration, deadline);
             showHome();
         });
         findViewById(R.id.btnCancelTask).setOnClickListener(v -> showHome());
+    }
+
+    // Abre el selector de hora y guarda la hora elegida
+    private void pickCustomTime(TextView label, RadioGroup group) {
+        Calendar now = Calendar.getInstance();
+        TimePickerDialog dialog = new TimePickerDialog(this, (view, hour, minute) -> {
+            Calendar chosen = Calendar.getInstance();
+            chosen.set(Calendar.HOUR_OF_DAY, hour);
+            chosen.set(Calendar.MINUTE, minute);
+            chosen.set(Calendar.SECOND, 0);
+            chosen.set(Calendar.MILLISECOND, 0);
+
+
+            if (chosen.getTimeInMillis() <= System.currentTimeMillis()) {
+                chosen.add(Calendar.DAY_OF_MONTH, 1);
+            }
+
+            customDeadlineMillis = chosen.getTimeInMillis();
+            label.setText("Vence " + new SimpleDateFormat("h:mm a", Locale.getDefault())
+                    .format(new Date(customDeadlineMillis)));
+            label.setVisibility(View.VISIBLE);
+        }, now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE), false);
+
+        // Si cancelan sin haber elegido nunca una hora, regresamos a la opción de 15 min
+        dialog.setOnCancelListener(d -> {
+            if (customDeadlineMillis == 0) {
+                group.check(R.id.rb15);
+            }
+        });
+        dialog.show();
+    }
+
+
+    private long presetDurationMillis(int checkedId) {
+        if (checkedId == R.id.rb30) return 30 * 60000L;
+        if (checkedId == R.id.rb60) return 60 * 60000L;
+        if (checkedId == R.id.rb120) return 120 * 60000L;
+        return 15 * 60000L; // rb15 es el valor por defecto
     }
 
     private void showCountdown() {
@@ -140,5 +219,41 @@ public class MainActivity extends Activity {
             background = R.drawable.bg_urgency_green;   // más de 4 horas
         }
         card.setBackgroundResource(background);
+    }
+
+    // Crea una tarjeta por cada tarea guardada y la agrega a la sección "Siguientes"
+    private void renderTasks() {
+        LinearLayout container = findViewById(R.id.containerSiguientes);
+        container.removeAllViews();
+
+        LayoutInflater inflater = LayoutInflater.from(this);
+        long now = System.currentTimeMillis();
+
+        for (Task task : TaskRepository.getAll()) {
+            View card = inflater.inflate(R.layout.item_task, container, false);
+            long minutesLeft = task.minutesLeft(now);
+
+            ((TextView) card.findViewById(R.id.tvTaskTitle)).setText(task.title);
+            ((TextView) card.findViewById(R.id.tvTaskInfo)).setText(formatInfo(minutesLeft, task.deadlineMillis));
+            applyUrgency(card, minutesLeft);
+
+            container.addView(card);
+        }
+    }
+
+    // Texto de la tarjeta, por ejemplo: "1 h 18 min  ·  vence 9:10 a. m."
+    private String formatInfo(long minutesLeft, long deadlineMillis) {
+        String left;
+        if (minutesLeft < 0) {
+            left = "vencida";
+        } else if (minutesLeft >= 60) {
+            left = (minutesLeft / 60) + " h "
+                    + String.format(Locale.getDefault(), "%02d", minutesLeft % 60) + " min";
+        } else {
+            left = minutesLeft + " min";
+        }
+        String hour = new SimpleDateFormat("h:mm a", Locale.getDefault())
+                .format(new Date(deadlineMillis));
+        return left + "  ·  vence " + hour;
     }
 }

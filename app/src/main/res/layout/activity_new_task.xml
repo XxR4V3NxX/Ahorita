@@ -17,21 +17,24 @@
             android:layout_marginTop="28dp" android:text="¿En cuánto tiempo?"
             android:textColor="@color/ah_navy" android:textSize="19sp" android:textStyle="bold"/>
         <RadioGroup android:id="@+id/rgDuration" android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:orientation="horizontal">
-            <RadioButton android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:text="15 min" android:checked="true"/>
-            <RadioButton android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:text="30 min"/>
-            <RadioButton android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:text="1 hora"/>
+            android:layout_height="wrap_content" android:orientation="vertical">
+            <RadioButton android:id="@+id/rb15" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:text="15 min" android:checked="true"/>
+            <RadioButton android:id="@+id/rb30" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:text="30 min"/>
+            <RadioButton android:id="@+id/rb60" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:text="1 hora"/>
+            <RadioButton android:id="@+id/rb120" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:text="2 horas"/>
+            <RadioButton android:id="@+id/rbCustom" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:text="Elegir hora"/>
         </RadioGroup>
-        <RadioGroup android:layout_width="match_parent" android:layout_height="wrap_content"
-            android:orientation="horizontal">
-            <RadioButton android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:text="2 horas"/>
-            <RadioButton android:layout_width="wrap_content" android:layout_height="wrap_content"
-                android:text="Elegir hora"/>
-        </RadioGroup>
+
+        <!-- NUEVO: muestra la hora elegida. Es clicable para volver a cambiarla -->
+        <TextView android:id="@+id/tvCustomTime" android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:layout_marginStart="32dp"
+            android:layout_marginTop="4dp" android:textColor="@color/ah_muted"
+            android:textStyle="bold" android:visibility="gone"/>
         <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
             android:layout_marginTop="24dp" android:text="Avisos que no se me pasan"
             android:textColor="@color/ah_navy" android:textSize="19sp" android:textStyle="bold"/>
