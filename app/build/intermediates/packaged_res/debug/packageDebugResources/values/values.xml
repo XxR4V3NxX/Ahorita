@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="ah_background">#F1F6FA</color>
-    <color name="ah_blue">#DCEEFF</color>
-    <color name="ah_border">#D8E4ED</color>
-    <color name="ah_green">#39866D</color>
-    <color name="ah_muted">#60788C</color>
-    <color name="ah_navy">#183B5B</color>
-    <color name="ah_orange">#E88B42</color>
+    <color name="ah_background">#F4F8FC</color>
+    <color name="ah_blue">#E3EEFB</color>
+    <color name="ah_border">#DCE5EF</color>
+    <color name="ah_green">#3F9B78</color>
+    <color name="ah_muted">#6B7A8F</color>
+    <color name="ah_navy">#1F3A5F</color>
+    <color name="ah_orange">#F08A3C</color>
     <color name="ah_surface">#FFFFFF</color>
-    <color name="ah_urgent_green">#43A047</color>
-    <color name="ah_urgent_red">#E53935</color>
-    <color name="ah_urgent_yellow">#F9A825</color>
+    <color name="ah_urgent_green">#3FA66B</color>
+    <color name="ah_urgent_red">#E5534B</color>
+    <color name="ah_urgent_yellow">#F2B33D</color>
     <string name="app_name">ahorita</string>
     <style name="Theme.Ahorita" parent="@android:style/Theme.Material.Light.NoActionBar">
         <item name="android:fontFamily">sans-serif</item>

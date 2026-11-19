@@ -2,13 +2,25 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="wrap_content"
     android:layout_marginTop="10dp" android:background="@drawable/bg_card"
-    android:orientation="vertical" android:padding="16dp">
+    android:gravity="center_vertical" android:orientation="horizontal" android:padding="16dp">
 
-    <TextView android:id="@+id/tvTaskTitle"
-        android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:textColor="@color/ah_navy" android:textSize="17sp" android:textStyle="bold"/>
+    <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content"
+        android:layout_weight="1" android:orientation="vertical">
 
-    <TextView android:id="@+id/tvTaskInfo"
-        android:layout_width="match_parent" android:layout_height="wrap_content"
-        android:textColor="@color/ah_muted"/>
+        <TextView android:id="@+id/tvTaskTitle"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:textColor="@color/ah_navy" android:textSize="17sp" android:textStyle="bold"/>
+
+        <TextView android:id="@+id/tvTaskInfo"
+            android:layout_width="match_parent" android:layout_height="wrap_content"
+            android:textColor="@color/ah_muted"/>
+    </LinearLayout>
+
+    <!-- NUEVO: círculo con check para descartar la tarea -->
+    <TextView android:id="@+id/btnTaskDone"
+        android:layout_width="36dp" android:layout_height="36dp"
+        android:layout_marginStart="12dp"
+        android:background="@drawable/bg_check_circle"
+        android:gravity="center" android:text="✓"
+        android:textColor="@color/ah_green" android:textSize="18sp" android:textStyle="bold"/>
 </LinearLayout>

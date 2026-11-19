@@ -6,35 +6,34 @@
                 {
                     "source": "D:\\documentos\\GitHub\\Ahorita\\app\\src\\main\\res\\values\\colors.xml",
                     "from": {
-                        "startLines": "-1,-1,-1,-1,-1,-1,-1,-1",
-                        "startColumns": "-1,-1,-1,-1,-1,-1,-1,-1",
-                        "startOffsets": "-1,-1,-1,-1,-1,-1,-1,-1"
+                        "startLines": "-1,-1,-1,-1,-1,-1,-1,-1,11,9,10",
+                        "startColumns": "-1,-1,-1,-1,-1,-1,-1,-1,4,4,4",
+                        "startOffsets": "-1,-1,-1,-1,-1,-1,-1,-1,477,376,425",
+                        "endColumns": "-1,-1,-1,-1,-1,-1,-1,-1,49,47,50",
+                        "endOffsets": "-1,-1,-1,-1,-1,-1,-1,-1,522,419,471"
                     },
                     "to": {
-                        "startLines": "2,3,4,5,6,7,8,9",
-                        "startColumns": "4,4,4,4,4,4,4,4",
-                        "startOffsets": "55,103,145,189,232,275,317,361",
-                        "endColumns": "47,41,43,42,42,41,43,44",
-                        "endOffsets": "98,140,184,227,270,312,356,401"
+                        "startLines": "2,3,4,5,6,7,8,9,10,11,12",
+                        "startColumns": "4,4,4,4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,103,145,189,232,275,317,361,406,456,504",
+                        "endColumns": "47,41,43,42,42,41,43,44,49,47,50",
+                        "endOffsets": "98,140,184,227,270,312,356,401,451,499,550"
                     }
                 },
                 {
                     "source": "D:\\documentos\\GitHub\\Ahorita\\app\\src\\main\\res\\values\\styles.xml",
                     "from": {
-                        "startLines": "1",
-                        "startColumns": "4",
-                        "startOffsets": "17",
-                        "endLines": "8",
-                        "endColumns": "12",
-                        "endOffsets": "518"
+                        "startLines": "-1",
+                        "startColumns": "-1",
+                        "startOffsets": "-1"
                     },
                     "to": {
-                        "startLines": "11",
+                        "startLines": "14",
                         "startColumns": "4",
-                        "startOffsets": "451",
-                        "endLines": "18",
+                        "startOffsets": "600",
+                        "endLines": "21",
                         "endColumns": "12",
-                        "endOffsets": "945"
+                        "endOffsets": "1094"
                     }
                 },
                 {
@@ -45,11 +44,11 @@
                         "startOffsets": "-1"
                     },
                     "to": {
-                        "startLines": "10",
+                        "startLines": "13",
                         "startColumns": "4",
-                        "startOffsets": "406",
+                        "startOffsets": "555",
                         "endColumns": "44",
-                        "endOffsets": "446"
+                        "endOffsets": "595"
                     }
                 }
             ]
@@ -60,11 +59,11 @@
                 {
                     "source": "D:\\documentos\\GitHub\\Ahorita\\app\\src\\main\\res\\values\\colors.xml",
                     "from": {
-                        "startLines": "-1,-1,-1,-1,-1,-1,-1,-1,11,9,10",
-                        "startColumns": "-1,-1,-1,-1,-1,-1,-1,-1,4,4,4",
-                        "startOffsets": "-1,-1,-1,-1,-1,-1,-1,-1,477,376,425",
-                        "endColumns": "-1,-1,-1,-1,-1,-1,-1,-1,49,47,50",
-                        "endOffsets": "-1,-1,-1,-1,-1,-1,-1,-1,522,419,471"
+                        "startLines": "1,3,6,7,5,4,8,-1,11,9,10",
+                        "startColumns": "4,4,4,4,4,4,4,-1,4,4,4",
+                        "startOffsets": "17,112,363,447,286,196,550,-1,743,642,691",
+                        "endColumns": "47,41,43,42,42,41,43,-1,49,47,50",
+                        "endOffsets": "60,149,402,485,324,233,589,-1,788,685,737"
                     },
                     "to": {
                         "startLines": "2,3,4,5,6,7,8,9,10,11,12",

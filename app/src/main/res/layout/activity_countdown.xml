@@ -39,9 +39,6 @@
             </LinearLayout>
         </FrameLayout>
 
-        <TextView android:layout_width="wrap_content" android:layout_height="wrap_content"
-            android:layout_marginTop="26dp" android:text="Cada bloque son 5 min · quedan 2"
-            android:textColor="@color/ah_navy" android:textStyle="bold"/>
         <TextView android:id="@+id/tvStepsTitle" android:layout_width="wrap_content"
             android:layout_height="wrap_content" android:layout_marginTop="28dp"
             android:text="Pasos pequeños" android:textColor="@color/ah_navy"
@@ -52,11 +49,23 @@
             android:layout_height="wrap_content" android:orientation="vertical"/>
         <Button android:id="@+id/btnDone" android:layout_width="match_parent"
             android:layout_height="wrap_content" android:layout_marginTop="22dp"
-            android:text="Ya lo hice" android:textAllCaps="false"
-            android:backgroundTint="@color/ah_green" android:textColor="@android:color/white"/>
+            android:minHeight="44dp" android:text="Ya lo hice" android:textAllCaps="false"
+            android:textColor="@android:color/white"
+            android:background="@drawable/bg_btn_round_filled"
+            android:backgroundTint="@null" android:stateListAnimator="@null"/>
+
         <Button android:id="@+id/btnAddFive" android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:text="+5 min" android:textAllCaps="false"/>
+            android:layout_height="wrap_content" android:layout_marginTop="12dp"
+            android:minHeight="44dp" android:text="+5 min" android:textAllCaps="false"
+            android:textColor="@color/ah_navy"
+            android:background="@drawable/bg_btn_pill_outline"
+            android:backgroundTint="@null" android:stateListAnimator="@null"/>
+
         <Button android:id="@+id/btnBackHome" android:layout_width="match_parent"
-            android:layout_height="wrap_content" android:text="Volver al inicio" android:textAllCaps="false"/>
+            android:layout_height="wrap_content" android:layout_marginTop="12dp"
+            android:minHeight="44dp" android:text="Volver al inicio" android:textAllCaps="false"
+            android:textColor="@color/ah_navy"
+            android:background="@drawable/bg_btn_pill_outline"
+            android:backgroundTint="@null" android:stateListAnimator="@null"/>
     </LinearLayout>
 </ScrollView>

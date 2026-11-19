@@ -369,6 +369,11 @@ public class MainActivity extends Activity {
             ((TextView) card.findViewById(R.id.tvTaskInfo))
                     .setText(formatInfo(task.deadlineMillis - now, task.deadlineMillis));
             applyUrgency(card, minutesLeft);
+            // Al tocar el check, la tarea se descarta y la pantalla de inicio se actualiza
+            card.findViewById(R.id.btnTaskDone).setOnClickListener(v -> {
+                TaskRepository.remove(task.id);
+                showHome();
+            });
 
             container.addView(card);
         }

@@ -13,8 +13,10 @@ color ah_urgent_red
 color ah_urgent_yellow
 drawable bg_btn_pill_filled
 drawable bg_btn_pill_outline
+drawable bg_btn_round_filled
 drawable bg_card
 drawable bg_card_primary
+drawable bg_check_circle
 drawable bg_urgency_green
 drawable bg_urgency_red
 drawable bg_urgency_yellow
@@ -29,6 +31,7 @@ id btnNewTask
 id btnSeeAll
 id btnStartTask
 id btnStreaks
+id btnTaskDone
 id btnToday
 id containerNewSteps
 id containerSiguientes

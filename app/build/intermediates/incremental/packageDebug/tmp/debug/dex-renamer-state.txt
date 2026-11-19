@@ -1,4 +1,4 @@
-#Wed Nov 18 18:22:57 CST 2026
+#Wed Nov 18 18:42:49 CST 2026
 base.0=D\:\\documentos\\GitHub\\Ahorita\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\0\\classes.dex
 base.1=D\:\\documentos\\GitHub\\Ahorita\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\15\\classes.dex
 base.2=D\:\\documentos\\GitHub\\Ahorita\\app\\build\\intermediates\\dex\\debug\\mergeProjectDexDebug\\5\\classes.dex
