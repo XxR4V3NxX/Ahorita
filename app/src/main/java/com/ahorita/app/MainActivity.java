@@ -1,6 +1,7 @@
 package com.ahorita.app;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -42,6 +43,7 @@ public class MainActivity extends Activity {
     private void showHome() {
         setContentView(R.layout.activity_home);
 
+        TaskRepository.expireOverdue(System.currentTimeMillis());
         TextView label = findViewById(R.id.tvUrgentLabel);
         TextView title = findViewById(R.id.tvUrgentTask);
         TextView time = findViewById(R.id.tvUrgentTime);
@@ -65,7 +67,12 @@ public class MainActivity extends Activity {
 
         findViewById(R.id.btnNewTask).setOnClickListener(v -> showNewTask());
         findViewById(R.id.btnStreaks).setOnClickListener(v ->
-                Toast.makeText(this, "La sección de rachas se implementará después.", Toast.LENGTH_SHORT).show());
+                new AlertDialog.Builder(this)
+                        .setTitle("Racha")
+                        .setMessage("Racha actual: " + TaskRepository.getCurrentStreak()
+                                + " tareas a tiempo\nMejor racha: " + TaskRepository.getBestStreak())
+                        .setPositiveButton("Aceptar", null)
+                        .show());
         findViewById(R.id.btnSeeAll).setOnClickListener(v -> {
             showAllTasks = !showAllTasks;
             renderTasks();
@@ -263,7 +270,7 @@ public class MainActivity extends Activity {
 
         findViewById(R.id.btnDone).setOnClickListener(v -> {
             if (countDownTimer != null) countDownTimer.cancel();
-            TaskRepository.remove(activeTask.id); // la tarea terminada deja de aparecer
+            TaskRepository.complete(activeTask.id, System.currentTimeMillis()); // la tarea terminada deja de aparecer
             Toast.makeText(this, "¡Actividad completada!", Toast.LENGTH_SHORT).show();
             showHome();
         });
@@ -369,9 +376,9 @@ public class MainActivity extends Activity {
             ((TextView) card.findViewById(R.id.tvTaskInfo))
                     .setText(formatInfo(task.deadlineMillis - now, task.deadlineMillis));
             applyUrgency(card, minutesLeft);
-            // Al tocar el check, la tarea se descarta y la pantalla de inicio se actualiza
+            // Al tocar el check, la tarea se descarta y la pantalla de inicio se actualizas
             card.findViewById(R.id.btnTaskDone).setOnClickListener(v -> {
-                TaskRepository.remove(task.id);
+                TaskRepository.complete(task.id, System.currentTimeMillis());
                 showHome();
             });
 
