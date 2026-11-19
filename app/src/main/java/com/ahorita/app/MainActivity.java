@@ -31,6 +31,7 @@ public class MainActivity extends Activity {
     private boolean showAllTasks = false;
     private static final int HOME_TASK_LIMIT = 4;
     private final List<String> pendingSteps = new ArrayList<>();
+    private TextView countdownUnit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,11 +56,9 @@ public class MainActivity extends Activity {
             start.setVisibility(View.GONE);
         } else {
             long now = System.currentTimeMillis();
-            String hour = new SimpleDateFormat("h:mm a", Locale.getDefault())
-                    .format(new Date(urgent.deadlineMillis));
-            label.setText("AHORA  ·  vence " + hour);
+            label.setText("Proximo  ·  vence " + formatDeadline(urgent.deadlineMillis));
             title.setText(urgent.title);
-            time.setText(formatMinutes(urgent.deadlineMillis - now));
+            time.setText(formatRemaining(urgent.deadlineMillis - now));
             start.setVisibility(View.VISIBLE);
             start.setOnClickListener(v -> showCountdown(urgent));
         }
@@ -251,6 +250,7 @@ public class MainActivity extends Activity {
 
         TextView taskView = findViewById(R.id.tvCountdownTask);
         TextView timerView = findViewById(R.id.tvCountdown);
+        countdownUnit = findViewById(R.id.tvCountdownUnit);
         ArcProgressView arc = findViewById(R.id.arcCountdown);
 
         taskView.setText(task.title);
@@ -306,8 +306,26 @@ public class MainActivity extends Activity {
     }
     private void updateTimerText(TextView view, long millis) {
         long totalSeconds = Math.max(0, millis / 1000);
-        view.setText(String.format(Locale.getDefault(), "%02d:%02d",
-                totalSeconds / 60, totalSeconds % 60));
+        long days = totalSeconds / 86400;
+        long hours = (totalSeconds % 86400) / 3600;
+        long minutes = (totalSeconds % 3600) / 60;
+        long seconds = totalSeconds % 60;
+
+        if (days >= 1) {
+            // Más de un día: número de días y las horas restantes debajo
+            view.setText(String.valueOf(days));
+            countdownUnit.setText("días · " + hours + " h");
+        } else if (totalSeconds >= 3600) {
+            // Entre 1 y 24 horas: horas y minutos
+            view.setText(String.format(Locale.getDefault(), "%02d:%02d",
+                    hours, minutes));
+            countdownUnit.setText("horas : minutos");
+        } else {
+            // Menos de una hora: el formato original
+            view.setText(String.format(Locale.getDefault(), "%02d:%02d",
+                    minutes, seconds));
+            countdownUnit.setText("minutos : segundos");
+        }
     }
 
     private String formatMinutes(long millis) {
@@ -348,7 +366,8 @@ public class MainActivity extends Activity {
             long minutesLeft = task.minutesLeft(now);
 
             ((TextView) card.findViewById(R.id.tvTaskTitle)).setText(task.title);
-            ((TextView) card.findViewById(R.id.tvTaskInfo)).setText(formatInfo(minutesLeft, task.deadlineMillis));
+            ((TextView) card.findViewById(R.id.tvTaskInfo))
+                    .setText(formatInfo(task.deadlineMillis - now, task.deadlineMillis));
             applyUrgency(card, minutesLeft);
 
             container.addView(card);
@@ -364,17 +383,9 @@ public class MainActivity extends Activity {
     }
 
 
-    private String formatInfo(long minutesLeft, long deadlineMillis) {
-        String left;
-        if (minutesLeft < 0) {
-            left = "vencida";
-        } else if (minutesLeft >= 60) {
-            left = (minutesLeft / 60) + " h "
-                    + String.format(Locale.getDefault(), "%02d", minutesLeft % 60) + " min";
-        } else {
-            left = minutesLeft + " min";
-        }
-        return left + "  ·  vence " + formatDeadline(deadlineMillis);
+    // Texto de la tarjeta: "13 d 17 h  ·  vence Wed 2 Dec, 6:00 PM"
+    private String formatInfo(long millisLeft, long deadlineMillis) {
+        return formatRemaining(millisLeft) + "  ·  vence " + formatDeadline(deadlineMillis);
     }
     private void renderSteps(LinearLayout container, TextView title, List<String> steps) {
         container.removeAllViews();
@@ -387,6 +398,23 @@ public class MainActivity extends Activity {
             CheckBox box = new CheckBox(this);
             box.setText(step);
             container.addView(box);
+        }
+    }
+
+    // Tiempo restante legible: "19 d 17 h", "5 h 12 min" o "42 min"
+    private String formatRemaining(long millis) {
+        if (millis <= 0) return "vencida";
+        long totalMinutes = millis / 60000L;
+        long days = totalMinutes / 1440;
+        long hours = (totalMinutes % 1440) / 60;
+        long minutes = totalMinutes % 60;
+
+        if (days >= 1) {
+            return days + " d " + hours + " h";
+        } else if (hours >= 1) {
+            return hours + " h " + String.format(Locale.getDefault(), "%02d", minutes) + " min";
+        } else {
+            return Math.max(1, minutes) + " min";
         }
     }
 }

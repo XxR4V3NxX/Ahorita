@@ -42,6 +42,7 @@ int id rbDate 0x7f030020
 int id rgDuration 0x7f030016
 int id tvCountdown 0x7f030017
 int id tvCountdownTask 0x7f030018
+int id tvCountdownUnit 0x7f030021
 int id tvCustomTime 0x7f030019
 int id tvStepsTitle 0x7f03001a
 int id tvTaskInfo 0x7f03001b
