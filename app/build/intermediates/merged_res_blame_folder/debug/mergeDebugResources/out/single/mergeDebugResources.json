@@ -12,10 +12,6 @@
         "source": "C:\\Users\\Corzo\\.gradle\\daemon\\9.3.0\\com.ahorita.app-main-6:\\drawable\\bg_urgency_yellow.xml"
     },
     {
-        "merged": "com.ahorita.app-debug-4:/layout_activity_countdown.xml.flat",
-        "source": "com.ahorita.app-main-6:/layout/activity_countdown.xml"
-    },
-    {
         "merged": "C:\\Users\\Corzo\\.gradle\\daemon\\9.3.0\\com.ahorita.app-debug-4:\\layout_activity_home.xml.flat",
         "source": "C:\\Users\\Corzo\\.gradle\\daemon\\9.3.0\\com.ahorita.app-main-6:\\layout\\activity_home.xml"
     },
@@ -40,12 +36,12 @@
         "source": "C:\\Users\\Corzo\\.gradle\\daemon\\9.3.0\\com.ahorita.app-main-6:\\drawable\\bg_card_primary.xml"
     },
     {
-        "merged": "C:\\Users\\Corzo\\.gradle\\daemon\\9.3.0\\com.ahorita.app-debug-4:\\drawable_bg_urgency_red.xml.flat",
-        "source": "C:\\Users\\Corzo\\.gradle\\daemon\\9.3.0\\com.ahorita.app-main-6:\\drawable\\bg_urgency_red.xml"
-    },
-    {
         "merged": "C:\\Users\\Corzo\\.gradle\\daemon\\9.3.0\\com.ahorita.app-debug-4:\\layout_activity_countdown.xml.flat",
         "source": "C:\\Users\\Corzo\\.gradle\\daemon\\9.3.0\\com.ahorita.app-main-6:\\layout\\activity_countdown.xml"
+    },
+    {
+        "merged": "C:\\Users\\Corzo\\.gradle\\daemon\\9.3.0\\com.ahorita.app-debug-4:\\drawable_bg_urgency_red.xml.flat",
+        "source": "C:\\Users\\Corzo\\.gradle\\daemon\\9.3.0\\com.ahorita.app-main-6:\\drawable\\bg_urgency_red.xml"
     },
     {
         "merged": "C:\\Users\\Corzo\\.gradle\\daemon\\9.3.0\\com.ahorita.app-debug-4:\\drawable_bg_btn_pill_filled.xml.flat",

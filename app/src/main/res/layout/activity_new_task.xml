@@ -28,6 +28,8 @@
                 android:layout_height="wrap_content" android:text="2 horas"/>
             <RadioButton android:id="@+id/rbCustom" android:layout_width="wrap_content"
                 android:layout_height="wrap_content" android:text="Elegir hora"/>
+            <RadioButton android:id="@+id/rbDate" android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:text="Otro día"/>
         </RadioGroup>
 
         <!-- NUEVO: muestra la hora elegida. Es clicable para volver a cambiarla -->

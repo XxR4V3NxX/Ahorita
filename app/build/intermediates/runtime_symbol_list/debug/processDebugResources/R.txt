@@ -38,6 +38,7 @@ int id rb15 0x7f030012
 int id rb30 0x7f030013
 int id rb60 0x7f030014
 int id rbCustom 0x7f030015
+int id rbDate 0x7f030020
 int id rgDuration 0x7f030016
 int id tvCountdown 0x7f030017
 int id tvCountdownTask 0x7f030018

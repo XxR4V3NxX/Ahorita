@@ -19,6 +19,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import android.widget.CheckBox;
+import android.app.DatePickerDialog;
 
 
 public class MainActivity extends Activity {
@@ -93,12 +94,16 @@ public class MainActivity extends Activity {
 
         durations.setOnCheckedChangeListener((group, checkedId) -> {
             if (checkedId == R.id.rbCustom) {
-                pickCustomTime(customTime, durations);
+                pickDeadline(customTime, durations, false);
+            } else if (checkedId == R.id.rbDate) {
+                pickDeadline(customTime, durations, true);
             } else {
                 customTime.setVisibility(View.GONE);
             }
         });
-        customTime.setOnClickListener(v -> pickCustomTime(customTime, durations));
+        customTime.setOnClickListener(v ->
+                pickDeadline(customTime, durations,
+                        durations.getCheckedRadioButtonId() == R.id.rbDate));
 
         // NUEVO: agrega un paso a la lista temporal
         findViewById(R.id.btnAddStep).setOnClickListener(v -> {
@@ -124,13 +129,23 @@ public class MainActivity extends Activity {
             long duration;
             long deadline;
 
-            if (checkedId == R.id.rbCustom) {
+            if (checkedId == R.id.rbCustom || checkedId == R.id.rbDate) {
+
                 if (customDeadlineMillis == 0) {
-                    Toast.makeText(this, "Elige la hora de vencimiento", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Elige una fecha y hora de vencimiento",
+                            Toast.LENGTH_SHORT).show();
                     return;
                 }
+
                 deadline = customDeadlineMillis;
                 duration = deadline - now;
+
+                if (duration <= 0) {
+                    Toast.makeText(this, "La fecha debe ser futura",
+                            Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
             } else {
                 duration = presetDurationMillis(checkedId);
                 deadline = now + duration;
@@ -154,33 +169,72 @@ public class MainActivity extends Activity {
     }
 
     // Abre el selector de hora y guarda la hora elegida
-    private void pickCustomTime(TextView label, RadioGroup group) {
+    // Flujo de elección: si pickDate es true, primero abre el calendario y luego la hora
+    private void pickDeadline(TextView label, RadioGroup group, boolean pickDate) {
+        Calendar today = Calendar.getInstance();
+        if (pickDate) {
+            DatePickerDialog dateDialog = new DatePickerDialog(this, (view, year, month, day) -> {
+                Calendar date = Calendar.getInstance();
+                date.set(year, month, day);
+                pickTimeFor(date, label, group, true);
+            }, today.get(Calendar.YEAR), today.get(Calendar.MONTH), today.get(Calendar.DAY_OF_MONTH));
+
+            // No permite fechas pasadas
+            dateDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+
+            dateDialog.setOnCancelListener(d -> {
+                if (customDeadlineMillis == 0) group.check(R.id.rb15);
+            });
+            dateDialog.show();
+        } else {
+            pickTimeFor(today, label, group, false);
+        }
+    }
+
+    // Abre el selector de hora sobre el día indicado y guarda el resultado
+    private void pickTimeFor(Calendar day, TextView label, RadioGroup group, boolean dateChosen) {
         Calendar now = Calendar.getInstance();
-        TimePickerDialog dialog = new TimePickerDialog(this, (view, hour, minute) -> {
-            Calendar chosen = Calendar.getInstance();
+        int initialHour = dateChosen ? 9 : now.get(Calendar.HOUR_OF_DAY);
+        int initialMinute = dateChosen ? 0 : now.get(Calendar.MINUTE);
+
+        TimePickerDialog timeDialog = new TimePickerDialog(this, (view, hour, minute) -> {
+            Calendar chosen = (Calendar) day.clone();
             chosen.set(Calendar.HOUR_OF_DAY, hour);
             chosen.set(Calendar.MINUTE, minute);
             chosen.set(Calendar.SECOND, 0);
             chosen.set(Calendar.MILLISECOND, 0);
 
-
             if (chosen.getTimeInMillis() <= System.currentTimeMillis()) {
+                if (dateChosen) {
+                    // Con fecha explícita no movemos nada: avisamos y pedimos otra hora
+                    Toast.makeText(this, "Esa hora ya pasó. Elige una hora futura.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                // Con "Elegir hora" se toma como la de mañana
                 chosen.add(Calendar.DAY_OF_MONTH, 1);
             }
 
             customDeadlineMillis = chosen.getTimeInMillis();
-            label.setText("Vence " + new SimpleDateFormat("h:mm a", Locale.getDefault())
-                    .format(new Date(customDeadlineMillis)));
+            label.setText("Vence " + formatDeadline(customDeadlineMillis));
             label.setVisibility(View.VISIBLE);
-        }, now.get(Calendar.HOUR_OF_DAY), now.get(Calendar.MINUTE), false);
+        }, initialHour, initialMinute, false);
 
-        // Si cancelan sin haber elegido nunca una hora, regresamos a la opción de 15 min
-        dialog.setOnCancelListener(d -> {
-            if (customDeadlineMillis == 0) {
-                group.check(R.id.rb15);
-            }
+        timeDialog.setOnCancelListener(d -> {
+            if (customDeadlineMillis == 0) group.check(R.id.rb15);
         });
-        dialog.show();
+        timeDialog.show();
+    }
+
+    // Muestra solo la hora si vence hoy; si no, agrega el día, por ejemplo "jue 3 dic, 3:30 p. m."
+    private String formatDeadline(long millis) {
+        Calendar target = Calendar.getInstance();
+        target.setTimeInMillis(millis);
+        Calendar today = Calendar.getInstance();
+
+        boolean isToday = target.get(Calendar.YEAR) == today.get(Calendar.YEAR)
+                && target.get(Calendar.DAY_OF_YEAR) == today.get(Calendar.DAY_OF_YEAR);
+        String pattern = isToday ? "h:mm a" : "EEE d MMM, h:mm a";
+        return new SimpleDateFormat(pattern, Locale.getDefault()).format(new Date(millis));
     }
 
 
@@ -320,9 +374,7 @@ public class MainActivity extends Activity {
         } else {
             left = minutesLeft + " min";
         }
-        String hour = new SimpleDateFormat("h:mm a", Locale.getDefault())
-                .format(new Date(deadlineMillis));
-        return left + "  ·  vence " + hour;
+        return left + "  ·  vence " + formatDeadline(deadlineMillis);
     }
     private void renderSteps(LinearLayout container, TextView title, List<String> steps) {
         container.removeAllViews();

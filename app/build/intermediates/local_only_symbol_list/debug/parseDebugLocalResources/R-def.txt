@@ -40,6 +40,7 @@ id rb15
 id rb30
 id rb60
 id rbCustom
+id rbDate
 id rgDuration
 id tvCountdown
 id tvCountdownTask
